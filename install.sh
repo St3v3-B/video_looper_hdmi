@@ -11,11 +11,13 @@ sudo apt-get update
 # Install necessary packages
 sudo apt-get install -y vlc inotify-tools x11-xserver-utils apache2 php libapache2-mod-php
 
+# Clean up old files
+echo "Cleaning up old files..."
+sudo rm -rf /var/www/html/uploads /var/www/html/images /var/www/html/index.html /script
+
 # Set up web server files
 cd /var/www/html
-sudo rm -f index.html
-sudo wget https://raw.githubusercontent.com/steve0001/loop_video/main/index.php
-
+https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/index.php
 # Create and set permissions for the uploads and images directories
 sudo mkdir -p /var/www/html/uploads
 sudo mkdir -p /var/www/html/images
@@ -47,3 +49,5 @@ if crontab -l | grep -Fq "$CRON_JOB"; then
 else
     echo "Failed to add cron job."
 fi
+
+echo "Installation complete."
