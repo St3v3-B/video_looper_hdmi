@@ -18,6 +18,7 @@ sudo rm -rf /var/www/html/uploads /var/www/html/images /var/www/html/index.html 
 # Set up web server files
 cd /var/www/html
 sudo wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/index.php
+
 # Create and set permissions for the uploads and images directories
 sudo mkdir -p /var/www/html/uploads
 sudo mkdir -p /var/www/html/images
@@ -34,6 +35,19 @@ sudo mkdir -p /script
 cd /script
 sudo wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
 sudo chmod +x loop_video.sh
+
+# Modify PHP configuration
+PHP_INI_FILE="/etc/php/8.2/apache2/php.ini"
+if [ -f "$PHP_INI_FILE" ]; then
+    sudo sed -i 's/^upload_max_filesize = [0-9]\+M/upload_max_filesize = 8192M/' "$PHP_INI_FILE"
+    sudo sed -i 's/^post_max_size = [0-9]\+M/post_max_size = 8192M/' "$PHP_INI_FILE"
+else
+    echo "PHP configuration file not found: $PHP_INI_FILE"
+    exit 1
+fi
+
+# Restart Apache2 service to apply changes
+sudo systemctl restart apache2
 
 # Start and enable Apache2 service
 sudo systemctl start apache2
