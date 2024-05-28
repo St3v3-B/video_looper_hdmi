@@ -30,11 +30,13 @@ sudo wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/image
 sudo chmod 777 /var/www/html/images
 sudo chmod 777 /var/www/html/uploads
 
+
 # Create the empty config.txt file
 CONFIG_FILE="/var/www/html/config.txt"
 echo "Creating empty config.txt file..."
 sudo touch $CONFIG_FILE
 sudo chmod 644 $CONFIG_FILE
+sudo chmod 777 /var/www/html/config.txt
 
 # Download the video looping script
 sudo mkdir -p /script
