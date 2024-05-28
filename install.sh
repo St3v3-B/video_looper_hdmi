@@ -38,7 +38,7 @@ sudo chmod 644 $CONFIG_FILE
 
 # Download the video looping script as user pi
 mkdir -p /home/pi/script
-cd /home/piscript
+cd /home/pi/script
 wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
 sudo chmod +x loop_video.sh
 CONFIG_FILE="vlc_script.log"
