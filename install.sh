@@ -34,7 +34,7 @@ sudo chmod 777 /var/www/html/uploads
 CONFIG_FILE="/var/www/html/config.txt"
 echo "Creating empty config.txt file..."
 sudo touch $CONFIG_FILE
-sudo chmod 644 $CONFIG_FILE
+sudo chmod 777 $CONFIG_FILE
 
 # Download the video looping script as user pi
 mkdir -p /home/pi/script
@@ -44,7 +44,6 @@ sudo chmod +x loop_video.sh
 CONFIG_FILE="vlc_script.log"
 echo "Creating empty vlc_script.log file..."
 sudo touch $CONFIG_FILE
-sudo chmod 644 $CONFIG_FILE
 sudo chmod 777 vlc_script.log
 
 # Modify PHP configuration
