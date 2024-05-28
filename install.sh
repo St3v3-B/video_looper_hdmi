@@ -4,7 +4,7 @@ set -e # Exit immediately if a command exits with a non-zero status
 set -o pipefail # Ensure any command in a pipeline that fails will cause the script to fail
 
 # Update and upgrade the system
-sudo apt update 
+sudo apt update
 sudo apt upgrade -y
 sudo apt-get update
 
@@ -13,7 +13,7 @@ sudo apt-get install -y vlc inotify-tools x11-xserver-utils apache2 php libapach
 
 # Clean up old files
 echo "Cleaning up old files..."
-sudo rm -rf /var/www/html/uploads /var/www/html/images /var/www/html/index.html /script
+sudo rm -rf /var/www/html/uploads /var/www/html/images /var/www/html/index.html /script /var/www/html/config.txt
 
 # Set up web server files
 cd /var/www/html
@@ -30,6 +30,12 @@ sudo wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/image
 sudo chmod 777 /var/www/html/images
 sudo chmod 777 /var/www/html/uploads
 
+# Create the empty config.txt file
+CONFIG_FILE="/var/www/html/config.txt"
+echo "Creating empty config.txt file..."
+sudo touch $CONFIG_FILE
+sudo chmod 644 $CONFIG_FILE
+
 # Download the video looping script
 sudo mkdir -p /script
 cd /script
@@ -38,9 +44,20 @@ sudo chmod +x loop_video.sh
 
 # Modify PHP configuration
 PHP_INI_FILE="/etc/php/8.2/apache2/php.ini"
+PHP_INI_DIR=$(dirname "$PHP_INI_FILE")
+
 if [ -f "$PHP_INI_FILE" ]; then
-    sudo sed -i 's/^upload_max_filesize = [0-9]\+M/upload_max_filesize = 8192M/' "$PHP_INI_FILE"
-    sudo sed -i 's/^post_max_size = [0-9]\+M/post_max_size = 8192M/' "$PHP_INI_FILE"
+    # Ensure the directory and the file have writable permissions
+    sudo chmod u+w "$PHP_INI_DIR"
+    sudo chmod u+w "$PHP_INI_FILE"
+
+    # Attempt to modify the file
+    sudo sed -i 's/^upload_max_filesize = [0-9]\+M/upload_max_filesize = 8192M/' "$PHP_INI_FILE" || { echo "Failed to update upload_max_filesize"; exit 1; }
+    sudo sed -i 's/^post_max_size = [0-9]\+M/post_max_size = 8192M/' "$PHP_INI_FILE" || { echo "Failed to update post_max_size"; exit 1; }
+
+    # Revert permissions to read-only for security
+    sudo chmod u-w "$PHP_INI_FILE"
+    sudo chmod u-w "$PHP_INI_DIR"
 else
     echo "PHP configuration file not found: $PHP_INI_FILE"
     exit 1
