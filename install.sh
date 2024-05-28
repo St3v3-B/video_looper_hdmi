@@ -34,13 +34,17 @@ sudo chmod 777 /var/www/html/uploads
 CONFIG_FILE="/var/www/html/config.txt"
 echo "Creating empty config.txt file..."
 sudo touch $CONFIG_FILE
-sudo chmod 644 $CONFIG_FILE
+sudo chmod 777 $CONFIG_FILE
 
 # Download the video looping script as user pi
-sudo mkdir -p /script
-cd /script
-sudo -u pi wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
+mkdir -p /home/pi/script
+cd /home/pi/script
+wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
 sudo chmod +x loop_video.sh
+CONFIG_FILE="vlc_script.log"
+echo "Creating empty vlc_script.log file..."
+sudo touch $CONFIG_FILE
+sudo chmod 777 vlc_script.log
 
 # Modify PHP configuration
 PHP_INI_FILE="/etc/php/8.2/apache2/php.ini"
@@ -71,7 +75,7 @@ sudo systemctl start apache2
 sudo systemctl enable apache2
 
 # Add to cron jobs to run loop_video.sh at reboot as user pi
-CRON_JOB="@reboot export DISPLAY=:0 && /script/loop_video.sh"
+CRON_JOB="@reboot export DISPLAY=:0 && /home/pi/script/loop_video.sh"
 (crontab -u pi -l 2>/dev/null | grep -Fq "$CRON_JOB") || (crontab -u pi -l 2>/dev/null; echo "$CRON_JOB") | crontab -u pi -
 
 # Confirm that the crontab was updated successfully
