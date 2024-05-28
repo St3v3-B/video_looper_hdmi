@@ -1,8 +1,3 @@
-### README.md
-
-```markdown
-# MP4 File Upload and Management
-
 This is a simple PHP-based web application for uploading, managing, and selecting MP4 files. It provides functionalities to upload MP4 files, select a file as the active file, show the selected video on the HDMI screen, and delete files from the server. The application also displays notifications for actions performed and ensures an enhanced user experience with a loading spinner and disappearing alerts.
 
 ## Features
@@ -23,7 +18,6 @@ This is a simple PHP-based web application for uploading, managing, and selectin
    ```sh
    git clone https://github.com/your-username/mp4-file-upload-management.git
    cd mp4-file-upload-management
-   ```
 
 2. **Set Up the Environment:**
 
