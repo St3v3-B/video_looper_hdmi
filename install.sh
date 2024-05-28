@@ -17,7 +17,7 @@ sudo rm -rf /var/www/html/uploads /var/www/html/images /var/www/html/index.html 
 
 # Set up web server files
 cd /var/www/html
-https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/index.php
+sudo wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/index.php
 # Create and set permissions for the uploads and images directories
 sudo mkdir -p /var/www/html/uploads
 sudo mkdir -p /var/www/html/images
