@@ -37,10 +37,15 @@ sudo touch $CONFIG_FILE
 sudo chmod 644 $CONFIG_FILE
 
 # Download the video looping script as user pi
-sudo mkdir -p /script
-cd /script
-sudo -u pi wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
+mkdir -p /home/pi/script
+cd /home/piscript
+wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
 sudo chmod +x loop_video.sh
+CONFIG_FILE="vlc_script.log"
+echo "Creating empty vlc_script.log file..."
+sudo touch $CONFIG_FILE
+sudo chmod 644 $CONFIG_FILE
+sudo chmod 777 vlc_script.log
 
 # Modify PHP configuration
 PHP_INI_FILE="/etc/php/8.2/apache2/php.ini"
