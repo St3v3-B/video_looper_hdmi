@@ -30,18 +30,16 @@ sudo wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/image
 sudo chmod 777 /var/www/html/images
 sudo chmod 777 /var/www/html/uploads
 
-
 # Create the empty config.txt file
 CONFIG_FILE="/var/www/html/config.txt"
 echo "Creating empty config.txt file..."
 sudo touch $CONFIG_FILE
 sudo chmod 644 $CONFIG_FILE
-sudo chmod 777 /var/www/html/config.txt
 
-# Download the video looping script
+# Download the video looping script as user pi
 sudo mkdir -p /script
 cd /script
-sudo wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
+sudo -u pi wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
 sudo chmod +x loop_video.sh
 
 # Modify PHP configuration
@@ -72,12 +70,12 @@ sudo systemctl restart apache2
 sudo systemctl start apache2
 sudo systemctl enable apache2
 
-# Add to cron jobs to run loop_video.sh at reboot
+# Add to cron jobs to run loop_video.sh at reboot as user pi
 CRON_JOB="@reboot export DISPLAY=:0 && /script/loop_video.sh"
-(crontab -l 2>/dev/null | grep -Fq "$CRON_JOB") || (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+(crontab -u pi -l 2>/dev/null | grep -Fq "$CRON_JOB") || (crontab -u pi -l 2>/dev/null; echo "$CRON_JOB") | crontab -u pi -
 
 # Confirm that the crontab was updated successfully
-if crontab -l | grep -Fq "$CRON_JOB"; then
+if crontab -u pi -l | grep -Fq "$CRON_JOB"; then
     echo "Cron job added successfully."
 else
     echo "Failed to add cron job."
