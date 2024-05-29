@@ -49,9 +49,9 @@ sudo chmod 777 $CONFIG_FILE
 
 # Download the video looping script as user pi
 echo -e "${YELLOW}Downloading the video looping script as user pi...${NC}"
-sudo mkdir -p /home/pi/script
+mkdir -p /home/pi/script
 cd /home/pi/script
-sudo -u pi wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
+wget https://raw.githubusercontent.com/St3v3-B/video_looper_hdmi/main/loop_video.sh
 sudo chmod +x loop_video.sh
 
 # Create the empty vlc_script.log file
